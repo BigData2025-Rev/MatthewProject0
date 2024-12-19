@@ -1,7 +1,7 @@
 import random
 
 class Card:
-    def __init__(self, suit, rank):
+    def __init__(self, rank, suit):
         self.suit = suit
         self.rank = rank
     def getRank(self):
@@ -11,6 +11,7 @@ class Card:
     def __str__(self):
         return f"{self.rank}{self.suit} "
     def getActualRank(self):
+        #the ace is highest, 2 is lowest
         return {1:2,2:3,3:4,5:6,6:7,8:9,9:10,10:"jack",11:"queen",12:"king",13:"Ace"}
 
 class Deck:
