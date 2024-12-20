@@ -62,8 +62,16 @@ class Player:
                     return ["two pair", max(filteredRanks)]
                 else: return ["pair", mode(ranks)]
         return ["high card", max(ranks)]
+    def displayCards(self):
+        for row in range(11):
+            
+            for card in self.cards:
+                print(card.getFace()[row], end= " ")
+            print("\n", end="")
+            
+
 
 player = Player(Deck())
-player.setCards([Card(1,"D"),Card(13,"D"),Card(1,"D"),Card(1,"D"),Card(2,"C")])
-print([str(s) for s in player.cards])
+player.draw(5)
+player.displayCards()
 print(player.scoreHand())
