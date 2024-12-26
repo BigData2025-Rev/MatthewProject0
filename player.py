@@ -2,24 +2,35 @@ from statistics import mode
 from deck import Deck, Card
 
 class Player:
-    def __init__(self, d,):
+    def __init__(self, deck, chips = 0):
         self.cards = []
-        self.deck = d
+        self.deck = deck
         self.selected = []
+        self.chips = chips
 
     def draw(self,n):
         for card in self.deck.draw(n):
             self.cards.append(card)
         self.cards.sort(key = lambda c : c.getRank())
 
-    def select(self, i):
-        self.selected.append(self.cards.pop(i))
+    def select(self, card):
+        self.selected.append(card)
     def discard(self):
-        for _ in self.selected:
-            self.deck.discards.append(self.selected.pop())
+        for card in self.selected:
+            self.deck.discards.append(self.cards.pop(self.cards.index(card)))
+        self.draw(len(self.selected))
+        self.selected = []
+
+    def discardAll(self):
+        while len(self.cards) > 0:
+            self.deck.discards.append(self.cards.pop())
 
     def setCards(self, cards):
         self.cards = cards
+    def getChips(self):
+        return self.chips
+    def addChips(self, chips):
+        self.chips += chips
 
     def scoreHand(self):
         #Checks for flushes, straights, then matching ranks, beginning with 4s of a kind and full houses
@@ -70,8 +81,3 @@ class Player:
             print("\n", end="")
             
 
-
-player = Player(Deck())
-player.draw(5)
-player.displayCards()
-print(player.scoreHand())

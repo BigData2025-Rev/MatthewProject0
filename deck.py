@@ -42,13 +42,15 @@ class Deck:
         cards = []
         for _ in range(n):
             cards.append(self.cards.pop())
+            if len(self.cards) == 0:
+                self.shuffle()
         return cards
     
     def discard(self, card):
         self.discards.append(card)
 
     def shuffle(self):
-        for _ in range(52):
+        while len(self.discards) > 0:
             self.cards.append(self.discards.pop())
         random.shuffle(self.cards)
 
