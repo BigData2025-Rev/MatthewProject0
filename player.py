@@ -1,4 +1,5 @@
 from statistics import mode
+import random
 from deck import Deck, Card
 
 class Player:
@@ -7,6 +8,7 @@ class Player:
         self.deck = deck
         self.selected = []
         self.chips = chips
+        self.out = False
 
     def draw(self,n):
         for card in self.deck.draw(n):
@@ -27,8 +29,14 @@ class Player:
 
     def setCards(self, cards):
         self.cards = cards
+    def setChips(self, chips):
+        self.chips = chips
     def getChips(self):
         return self.chips
+    def getIsOut(self):
+        return self.out
+    def setIsOut(self, out):
+        self.out = out
     def addChips(self, chips):
         self.chips += chips
 
@@ -74,10 +82,28 @@ class Player:
                 else: return ["pair", mode(ranks)]
         return ["high card", max(ranks)]
     def displayCards(self):
+        print("\033c")
         for row in range(11):
             
             for card in self.cards:
                 print(card.getFace()[row], end= " ")
             print("\n", end="")
             
+class Cpu(Player):
+    def discard(self):
+        while len(self.cards) < 5:
+            self.draw(1)
+        hand = self.scoreHand()[0]
+        if hand not in ["four of a kind", "full house", "flush", "straight", "straight flush"]:
+            ranks = [c.getRank() for c in self.cards]
+            for i in range(5):
+                rank = ranks[i]
+                if ranks.count(rank) < 2:
+                    self.select(self.cards[i])
+            for card in self.selected:
+                self.deck.discards.append(self.cards.pop(self.cards.index(card)))
+            self.draw(len(self.selected))
+            self.selected = []
 
+    def bet(self):
+        return random.choices(["fold","call","raise"],[.5, .35, .15])[0]

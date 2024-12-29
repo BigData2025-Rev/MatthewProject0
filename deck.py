@@ -50,6 +50,7 @@ class Deck:
         self.discards.append(card)
 
     def shuffle(self):
+        #takes in the discard pile and shuffles 
         while len(self.discards) > 0:
             self.cards.append(self.discards.pop())
         random.shuffle(self.cards)
