@@ -62,7 +62,7 @@ class Game:
                 print("Press 1, 2, or 3")
                 continue
             if selection == "1":
-                mode = self.mode1 if game == "mode1" else self.mode2
+                mode = self.mode1 if gameMode == "mode1" else self.mode2
                 mode()
                 break
             elif selection == "2":
