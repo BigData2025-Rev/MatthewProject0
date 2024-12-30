@@ -86,7 +86,7 @@ class Game:
             bet = ""
             while True:
                 bet = input(f"How many chips will you bet? You have {p.getChips()}\n")
-                if self.contains_non_num(bet):
+                if self.contains_non_num(bet) or bet == "":
                     print("Enter only numeric characters")
                     continue
                 bet = int(bet)
@@ -139,6 +139,7 @@ class Game:
             bet = bigblind
             #go through each player from the random starting position
             for player in [players[(x+startingPos) % 4] for x in range(4)]:
+                player.discardAll()
                 player.draw(5)
                 print("\n")
                 player.setIsOut(False)
@@ -282,13 +283,10 @@ class Game:
                 print(f"player {winning} wins with a {hand[0]}, {rank} high")
                 players[winning].addChips(pot)
             self.round += 1
-            for player in players:
-                player.discardAll()
             startingPos += 1
         self.end_of_game("mode2",p.getChips())
 
 
 
 
-game = Game()
-game.selectMode()
+
